@@ -48,7 +48,9 @@ typedef struct process_control_block {
 
   rlnode children_list;   /**< List of children */
   rlnode exited_list;     /**< List of exited children */
+  rlnode PTCB_list;       /**<list of PTCB*/
 
+  rlnode PTCB_node;        /*Intrusive node for @c ptcb_list*/
   rlnode children_node;   /**< Intrusive node for @c children_list */
   rlnode exited_node;     /**< Intrusive node for @c exited_list */
   CondVar child_exit;     /**< Condition variable for @c WaitChild */

@@ -41,7 +41,6 @@ typedef unsigned long timeout_t;
 
 /** @brief The maximum number of processes */
 #define MAX_PROC 65536
-#define MAX_PTCB 65536
 /** @brief The type of a file ID. */
 typedef int Fid_t;  
 

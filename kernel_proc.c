@@ -17,6 +17,7 @@
 
 /* The process table */
 PCB PT[MAX_PROC];
+PTCB PTC[MAX_PTCB];
 unsigned int process_count;
 
 PCB* get_pcb(Pid_t pid)
@@ -45,6 +46,13 @@ static inline void initialize_PCB(PCB* pcb)
   rlnode_init(& pcb->exited_node, pcb);
   pcb->child_exit = COND_INIT;
 }
+static inline void initialize_PTCB(PTCB* ptcb){
+ptcb->argl=0;
+ptcb->args=NULL;
+ptcb->parent=NULL;
+ptcb->thread=NULL;
+
+}
 
 
 static PCB* pcb_freelist;
@@ -55,7 +63,10 @@ void initialize_processes()
   for(Pid_t p=0; p<MAX_PROC; p++) {
     initialize_PCB(&PT[p]);
   }
+  for(Pid_t j=0; j<MAX_PTCB; j++){
+    initialize_PCB(&PTC[j]); 
 
+  }
   /* use the parent field to build a free list */
   PCB* pcbiter;
   pcb_freelist = NULL;

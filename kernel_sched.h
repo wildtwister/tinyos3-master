@@ -113,6 +113,15 @@ typedef struct thread_control_block
   
 } TCB;
 
+typedef struct process_thread_control_block{
+int argl;
+void *args;
+int exitval;
+Task task;
+PCB  *parent;
+TCB *thread;
+
+}PTCB;
 
 
 /** Thread stack size */

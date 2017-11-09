@@ -49,10 +49,11 @@ static inline void initialize_PCB(PCB* pcb)
   pcb->child_exit = COND_INIT;
 }
 static inline void initialize_PTCB(PTCB* ptcb){
-  ptcb->argl=0;
-  ptcb->args=NULL;
-  ptcb->parent=NULL;
-  ptcb->thread=NULL;
+  ptcb->argl = 0;
+  ptcb->args = NULL;
+  ptcb->parent = NULL;
+  ptcb->thread = NULL;
+  ptcb->joincv = COND_INIT;
 }
 
 
@@ -109,6 +110,31 @@ void release_PCB(PCB* pcb)
   process_count--;
 }
 
+
+
+/*PCB* acquire_PTCB()
+{
+  PTCB* ptcb = NULL;
+
+  if(ptcb_freelist != NULL) {
+    ptcb = ptcb_freelist;
+    ptcb_freelist = ptcb_freelist->parent;
+    process_count++;
+  }
+
+  return pcb;
+}
+
+/*
+  Must be called with kernel_mutex held
+*/
+/*void release_PTCB(PCB* pcb)
+{
+  pcb->pstate = FREE;
+  pcb->parent = pcb_freelist;
+  pcb_freelist = pcb;
+  process_count--;
+}*/
 
 /*
  *

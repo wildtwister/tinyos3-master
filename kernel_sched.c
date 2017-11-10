@@ -586,8 +586,8 @@ void initialize_scheduler()
   rlnode_init(&TIMEOUT_LIST, NULL);
   for(int i=0;i<LEVELS;i++)
     rlnode_init(&SCHED_QUE[i],NULL);
+   for()
 }
-
 
 
 void run_scheduler()

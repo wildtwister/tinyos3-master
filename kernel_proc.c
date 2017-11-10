@@ -17,6 +17,10 @@
 
 /* The process table */
 PCB PT[MAX_PROC];
+<<<<<<< HEAD
+=======
+
+>>>>>>> 97a3032... ptcb initiliasiation
 unsigned int process_count;
 
 PCB* get_pcb(Pid_t pid)
@@ -41,19 +45,21 @@ static inline void initialize_PCB(PCB* pcb)
 
   rlnode_init(& pcb->children_list, NULL);
   rlnode_init(& pcb->exited_list, NULL);
+  rlnode_init(& pcb->PTCB_list, NULL);
+  rlnode_init(& pcb->PTCB_node, pcb);
   rlnode_init(& pcb->children_node, pcb);
   rlnode_init(& pcb->exited_node, pcb);
   pcb->child_exit = COND_INIT;
 }
 
-static inline void initialize_PTCB(PTCB* ptcb)
-{
-ptcb->argl=0;
-ptcb->args=NULL;
-ptcb->parent=NULL;
-ptcb->thread=NULL;
-
+static inline void initialize_PTCB(PTCB* ptcb){
+  ptcb->argl = 0;
+  ptcb->args = NULL;
+  ptcb->parent = NULL;
+  ptcb->thread = NULL;
+  ptcb->joincv = COND_INIT;
 }
+>
 
 
 static PCB* pcb_freelist;
@@ -64,7 +70,7 @@ void initialize_processes()
   for(Pid_t p=0; p<MAX_PROC; p++) {
     initialize_PCB(&PT[p]);
   }
-  
+
   /* use the parent field to build a free list */
   PCB* pcbiter;
   pcb_freelist = NULL;
@@ -110,6 +116,31 @@ void release_PCB(PCB* pcb)
   process_count--;
 }
 
+
+
+/*PCB* acquire_PTCB()
+{
+  PTCB* ptcb = NULL;
+
+  if(ptcb_freelist != NULL) {
+    ptcb = ptcb_freelist;
+    ptcb_freelist = ptcb_freelist->parent;
+    process_count++;
+  }
+
+  return pcb;
+}
+
+/*
+  Must be called with kernel_mutex held
+*/
+/*void release_PTCB(PCB* pcb)
+{
+  pcb->pstate = FREE;
+  pcb->parent = pcb_freelist;
+  pcb_freelist = pcb;
+  process_count--;
+}*/
 
 /*
  *
